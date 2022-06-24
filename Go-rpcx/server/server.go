@@ -120,6 +120,15 @@ func NewServer(options ...OptionFn) *Server {
 	return s
 }
 
+func (s *Server) Address() net.Addr {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.In == nil {
+		return nil
+	}
+	return s.In.Addr()
+}
+
 // Close immediately
 func (s *Server) Close() error {
 	s.mu.Lock()
